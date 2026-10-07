@@ -95,7 +95,7 @@ Full BOM in the **GERBER, BOM, PNP** folder.
 
 - **GERBER, BOM, PNP** – Gerbers for all **three** sensor orientations (and an extra ALL in ONE), plus BOM and pick-and-place files.
 - **SCHEMATIC** – the schematic in PDF.
-- **SKETCH** – the example Arduino sketch.
+- **SKETCH** – the example Arduino sketch (automatic mode + touch override).
 - **Images** – renders and photos.
 
 ## If you want to edit the PCB
