@@ -45,13 +45,38 @@ The ATtiny reads both values in real time and decides when the WS2812B strip sho
 
 5. **Size your power supply for the LED strip.** WS2812B LEDs can draw up to ~60mA each at full white, so the strip, not the ATtiny, decides how big your power supply needs to be.
 
+## The example sketch 
+
+The sketch in the **SKETCH** folder turns the board into a hands-free night light with a "touch" override:
+
+- **Automatic mode** – when it's dark **and** something comes within range, the strip turns on (warm-ish white, nothing fancy) and switches itself off after **1 minute**. Like a fridge light, but for your hallway.
+- **Touch override** – while the LEDs are on, bring your hand really close to the sensor (a few mm) and they turn off immediately. The board then enters **manual mode for 1 minute**: every close "touch" toggles the strip ON/OFF, and the automatic sensing is ignored. Perfect for when you want to walk past without the lights following you around like a puppy.
+- After the minute is over, it goes back to automatic mode on its own.
+
+### Settings you can tweak
+
+All the "knobs" are at the top of the sketch:
+
+| Setting | Default | What it does |
+|---|---|---|
+| `NUMLEDS` | 44 | Number of LEDs in your strip |
+| `LED_PIN` | `PIN_PA7` | Data pin for the strip (leave it, it's wired on the PCB) |
+| `PROXIMITY_THRESHOLD` | 30 | How close you need to be. Higher = closer (≈180 at 30cm, ≈40 at 60cm, ≈12 at 100cm) |
+| `TOUCH_THRESHOLD` | 1000 | Value for a "touch" (a few mm from the sensor) |
+| `AMBIENT_LIGHT_THRESHOLD` | 2 | How dark it must be. With the ceiling lights on it's 11000+, TV-only ≈13, minimum is 2 |
+| `OVERRIDE_DURATION` | 60000 | Manual mode length, in ms |
+| `timeoutDuration` | 60000 | How long the LEDs stay on in automatic mode, in ms |
+| `brightness` | 100 | LED brightness (0–255) |
+
+Pro tip: if your LEDs turn on while the room is still bright enough to read a book, raise `AMBIENT_LIGHT_THRESHOLD`. If they ignore you from across the room, raise... no wait, *lower* `PROXIMITY_THRESHOLD`. Proximity values go up as you get closer, because physics.
+
 ## Programming 
 
-1. Install [megaTinyCore](https://github.com/SpenceKonde/megaTinyCore) by SpenceKonde in Arduino IDE.
-2. Select **ATtiny3224/1624/1614/1604/824/814/804/424/414/404/214/204** under **Tools → Board**, then **Chip → ATtiny1614**.
-3. Under **Tools → Programmer** choose a **SerialUPDI** option (230400 baud is a good start).
-4. Connect the programmer to the **3V3 / GND / UPDI** pads, open the example sketch from the **SKETCH** folder and use **Upload Using Programmer** (Ctrl+Shift+U).
-
+1. Install [megaTinyCore](https://github.com/SpenceKonde/megaTinyCore) by SpenceKonde in Arduino IDE. It already includes the `tinyNeoPixel_Static` library used by the sketch.
+2. Install a VCNL4200 library that provides `Vishay_VCNL4200.h`.
+3. Select **ATtiny3224/1624/1614/1604/824/814/804/424/414/404/214/204** under **Tools → Board**, then **Chip → ATtiny1614**.
+4. Under **Tools → Programmer** choose a **SerialUPDI** option (230400 baud is a good start).
+5. Connect the programmer to the **3V3 / GND / UPDI** pads, open the sketch from the **SKETCH** folder, set `NUMLEDS` for your strip, and use **Upload Using Programmer** (Ctrl+Shift+U).
 If the strip lights up when you wave at it, congratulations: you've just built a very polite room.
 
 ## Main components 
