@@ -1,4 +1,4 @@
-# WaveLight – ATtiny1614 + VCNL4200 WS2812B LED Controller
+# WaveLight : ATtiny1614 + VCNL4200 WS2812B LED Controller
 
 A tiny smart-lighting controller that turns a WS2812B LED strip **ON and OFF by itself**, based on how dark it is and whether someone is nearby. Wave your hand (or walk by), the lights come on. Walk away, they go off.
 
